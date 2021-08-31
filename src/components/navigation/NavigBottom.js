@@ -12,27 +12,28 @@ import ScanScreen from '../screens/scanScreen';
 import SettingsScreen from '../screens/settingsScreen';
 import { BottomPopup } from '../sliders/BottomPopup';
 
-const popuplist = [
+let popuplist = [
     {
         id:1,
-        name: 'Test'
+        name: 'Haptic Suit x16',
+        battery:80
     },
     {
-        id:2,
-        name: 'Test2'
-    },
-    {
-        id:3,
-        name: 'Test3'
+        id:1,
+        name: 'Haptic Suit x16',
+        battery:75
     }
 ]
+
+//faire backend pour scan device + trier + update liste
 
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
+let popupRef = React.createRef()
+
 function MyTabs() {
-    let popupRef = React.createRef()
 
     const onShowPopup = () => {
         popupRef.show()

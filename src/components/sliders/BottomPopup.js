@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Modal, Dimensions, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { Colors, Mixins, Typo } from '../../styles/index';
 
 const deviceHeight = Dimensions.get('window').height
 
@@ -36,10 +37,12 @@ export class BottomPopup extends React.Component {
         return (
             <View>
                 <Text style={{
-                    color:'orange',
-                    fontSize :15,
-                    fontWeight:'500',
-                    margin:15
+                    marginLeft:25,
+                    marginTop:35,
+                    marginBottom:25,
+                    color:Colors.WHITE,
+                    fontSize :Typo.FONT_SIZE_TEXT,
+                    fontWeight:Typo.FONT_WEIGHT_REGULAR,
                 }}>
                     {title}
                 </Text>
@@ -50,7 +53,8 @@ export class BottomPopup extends React.Component {
     renderContent = () => {
         const {data} = this.props
         return (
-            <View>
+            <View style={{marginLeft:25,marginRight:25}}>
+                {this.renderSeparator()}
                 <FlatList
                 style={{marginBottom: 20}}
                 showsVerticalScrollIndicator={false}
@@ -60,7 +64,7 @@ export class BottomPopup extends React.Component {
                 keyExtractor={(item, index) => index.toString()}
                 ItemSeparatorComponent={this.renderSeparator}
                 contentContainerStyle={{
-                    paddingBottom:40
+
                 }}
                 />
 
@@ -71,7 +75,16 @@ export class BottomPopup extends React.Component {
     renderItem = ({item}) => {
         return (
             <View>
-                <Text>{item.name}</Text>
+                <Text
+                    style={{
+                        marginTop: 20,
+                        marginBottom: 20,
+                        color:Colors.WHITE,
+                        fontSize :Typo.FONT_SIZE_TEXT,
+                        fontWeight:Typo.FONT_WEIGHT_REGULAR,
+                    }}>
+                - {item.name} - {item.battery}%
+                </Text>
             </View>
         )
     }
@@ -80,9 +93,9 @@ export class BottomPopup extends React.Component {
         return (
             <View
                 style = {{
-                    opacity:0.1,
-                    backgroundColor:'black',
-                    height:3
+                    opacity:1,
+                    backgroundColor:Colors.WHITE,
+                    height:0.5,
                 }}
             />
         )
@@ -102,15 +115,15 @@ export class BottomPopup extends React.Component {
                 <View style={{flex:1, backgroundColor:'#FFFFF00000', justifyContent:'flex-end'}}>
                     {this.renderOutsideTouchable(onTouchOutside)}
                     <View style={{
-                        backgroundColor:'#3C4250',
+                        backgroundColor:Colors.GRAY_LIGHT,
                         width:'100%',
-                        borderTopLeftRadius:10,
-                        borderTopRightRadius:10,
+                        borderTopLeftRadius:20,
+                        borderTopRightRadius:20,
                         paddingHorizontal:10,
                         height:"100%",
                         maxHeight:deviceHeight *0.6
                     }}>
-
+                        
                     {this.renderTitle()}
                     {this.renderContent()}
                     </View>
