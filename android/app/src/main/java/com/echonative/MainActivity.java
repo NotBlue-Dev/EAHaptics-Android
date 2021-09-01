@@ -6,10 +6,18 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bhaptics.bhapticsmanger.BhapticsManager;
+import com.bhaptics.bhapticsmanger.BhapticsManagerCallback;
+import com.bhaptics.bhapticsmanger.BhapticsModule;
+import com.bhaptics.commons.model.BhapticsDevice;
 import com.facebook.react.ReactActivity;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import java.util.List;
 
 public class MainActivity extends ReactActivity {
 
@@ -34,6 +42,7 @@ public class MainActivity extends ReactActivity {
     Activity activity = new Activity();
     activity = mCurrentActivity;
     return activity;
+
   }
 
   public void checkPermission(String permission, int requestCode)
@@ -48,6 +57,7 @@ public class MainActivity extends ReactActivity {
       Log.d("Log", "Autoriser");
     }
   }
+
 
 
   @Override

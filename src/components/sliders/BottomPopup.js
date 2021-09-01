@@ -17,8 +17,10 @@ export class BottomPopup extends React.Component {
         this.setState({show:true})
     }
     
+    //#BUG# refresh ne refresh pas
     refresh = () => {
-        this.forceUpdate()
+        this.saveAnnotations();
+        this.forceUpdate();
     }
 
     close = () => {
@@ -77,12 +79,6 @@ export class BottomPopup extends React.Component {
     }
 
     renderItem = ({item}) => {
-        if(item.paired == true) {
-            item.paired = 'paired'
-        } else {
-            item.paired = 'not paired'
-        }
-        
         return (
             <View>
                 <Text
@@ -93,7 +89,7 @@ export class BottomPopup extends React.Component {
                         fontSize :Typo.FONT_SIZE_TEXT,
                         fontWeight:Typo.FONT_WEIGHT_REGULAR,
                     }}>
-                - {item.name} {item.battery}% type:{item.type}, {item.paired}, Stauts:{item.status}
+                - {item.name} {item.battery}% type:{item.type}, {item.paired}, Status:{item.status}
                 </Text>
             </View>
         )

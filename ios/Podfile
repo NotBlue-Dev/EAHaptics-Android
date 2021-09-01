@@ -12,6 +12,10 @@ target 'EchoNative' do
     :hermes_enabled => false
   )
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
+  pod 'RNFileViewer', :path => '../node_modules/react-native-file-viewer'
+
   target 'EchoNativeTests' do
     inherit! :complete
     # Pods for testing

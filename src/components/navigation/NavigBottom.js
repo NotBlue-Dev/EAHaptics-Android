@@ -15,31 +15,13 @@ import { BottomPopup } from '../sliders/BottomPopup';
 
 let popuplist = []
 
-EventRegister.addEventListener('onUpdateList', (args) => {
-    
-    popuplist.length = 0
-
-    let obj = {
-        id:1,
-        name: '',
-        battery:0,
-        paired:false,
-        type:'',
-        addr:'',
-        status:''
+EventRegister.addEventListener('tact-device-update', (args) => {
+    if(!(popuplist.some( arg => arg['addr'] === args.addr ))) {
+        popuplist.push(args)
+    } else {
+        let index = popuplist.findIndex(x => x.addr ===args.addr)
+        popuplist[index] = args
     }
-    
-    args.forEach((value, index) => {
-        obj.id = index
-        obj.addr = value.addr
-        obj.name = value.name
-        obj.battery = value.battery
-        obj.paired = value.paired
-        obj.status = value.status
-
-        popuplist.push(obj)
-    })
-
     onUpdate
 })
 
@@ -93,7 +75,7 @@ function MyTabs() {
 
                 if (route.name === 'Home') {
                     iconName = focused ? 'home': 'home-outline';
-                } else if (route.name === 'Scan') {
+                } else if (route.name === 'Devices') {
                     iconName = focused ? 'scan' : 'scan-outline';
                 } else if (route.name === 'Headset') {
                     iconName = focused ? 'game-controller' : 'game-controller-outline';

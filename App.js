@@ -6,13 +6,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import NavigBottom from './src/components/navigation/NavigBottom';
 import bhapticsPlayer from './src/api/bhapticsPlayer'
 
+
 const player = new bhapticsPlayer();
 
-player.launch()
-
 EventRegister.addEventListener('onRefreshClick', () => {
-  player.refresh()
+  player.getHapticList()
 })
+
+player.launch()
 
 function App() {
   return (
