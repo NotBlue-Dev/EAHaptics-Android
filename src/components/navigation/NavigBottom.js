@@ -5,27 +5,43 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Colors} from '../../styles/index'
+import { EventRegister } from 'react-native-event-listeners'
 
 import HomeScreen from '../screens/homeScreen';
 import HeadsetScreen from '../screens/headsetScreen';
-import ScanScreen from '../screens/scanScreen';
+import DevicesScreen from '../screens/devicesScreen';
 import SettingsScreen from '../screens/settingsScreen';
 import { BottomPopup } from '../sliders/BottomPopup';
 
-let popuplist = [
-    {
-        id:1,
-        name: 'Haptic Suit x16',
-        battery:80
-    },
-    {
-        id:1,
-        name: 'Haptic Suit x16',
-        battery:75
-    }
-]
+let popuplist = []
 
-//faire backend pour scan device + trier + update liste
+EventRegister.addEventListener('onUpdateList', (args) => {
+    
+    popuplist.length = 0
+
+    let obj = {
+        id:1,
+        name: '',
+        battery:0,
+        paired:false,
+        type:'',
+        addr:'',
+        status:''
+    }
+    
+    args.forEach((value, index) => {
+        obj.id = index
+        obj.addr = value.addr
+        obj.name = value.name
+        obj.battery = value.battery
+        obj.paired = value.paired
+        obj.status = value.status
+
+        popuplist.push(obj)
+    })
+
+    onUpdate
+})
 
 const Stack = createNativeStackNavigator();
 
@@ -33,15 +49,19 @@ const Tab = createBottomTabNavigator();
 
 let popupRef = React.createRef()
 
+const onShowPopup = () => {
+    popupRef.show()
+}
+
+const onClosePopup = () => {
+    popupRef.close()
+}
+
+const onUpdate = () => {
+    popupRef.refresh()
+}
+
 function MyTabs() {
-
-    const onShowPopup = () => {
-        popupRef.show()
-    }
-
-    const onClosePopup = () => {
-        popupRef.close()
-    }
 
     return(
         <Tab.Navigator
@@ -104,7 +124,7 @@ function MyTabs() {
 
             })
         }>
-            <Tab.Screen name="Scan" component={ScanScreen}/>
+            <Tab.Screen name="Devices" component={DevicesScreen}/>
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Headset" component={HeadsetScreen}/>
         </Tab.Navigator>

@@ -17,7 +17,9 @@ import android.util.Log;
 public class BhapticModuleJava extends ReactContextBaseJavaModule {
     BhapticModuleJava(ReactApplicationContext context) {
         super(context);
+
     }
+
 
     @Override
     public String getName() {
@@ -29,8 +31,6 @@ public class BhapticModuleJava extends ReactContextBaseJavaModule {
         BhapticsModule.initialize(MainActivity.getActivity());
 
         BhapticsManager bhapticsManager = BhapticsModule.getBhapticsManager();
-
-        Log.d("Log", bhapticsManager.getDeviceList().toString());
 
         callback.invoke(bhapticsManager.getDeviceList().toString());
     }
