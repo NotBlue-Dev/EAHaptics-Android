@@ -1,10 +1,15 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, View, Text} from 'react-native';
 
-export default function SettingsScreen() {
+import { Colors } from '../../styles';
+import { EventRegister } from 'react-native-event-listeners'
+
+//REFAIRE
+
+export default function settingsScreen() {
     return (
         <View style={{flex:1, alignItems:'center', justifyContent:'center',backgroundColor: '#2F3644'}}>
-            <Text>settingsScreen</Text>
+            <Text>ToDo</Text>
         </View>
     );
 }

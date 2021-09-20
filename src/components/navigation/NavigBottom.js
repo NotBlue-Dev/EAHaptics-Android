@@ -16,6 +16,7 @@ import { BottomPopup } from '../sliders/BottomPopup';
 let popuplist = []
 
 EventRegister.addEventListener('tact-device-update', (args) => {
+    console.log('baptics Devices Found')
     if(!(popuplist.some( arg => arg['addr'] === args.addr ))) {
         popuplist.push(args)
     } else {
@@ -124,7 +125,7 @@ export default function NavigBottom(){
 
 
 const opt = {
-    headerTitle:'EAHaptics',
+
     headerTintColor: Colors.WHITE,
     headerTitleAlign:'center',
     headerStyle: {

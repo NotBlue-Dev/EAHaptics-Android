@@ -18,6 +18,13 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -50,7 +57,7 @@ public class BhapticModuleJava extends ReactContextBaseJavaModule {
             }
 
             @Override
-            public void onChangeResponse() {getDev();}
+            public void onChangeResponse() {}
 
             @Override
             public void onConnect(String s) {getDev(); sendEvent("onConnect","Connected");}
@@ -100,6 +107,36 @@ public class BhapticModuleJava extends ReactContextBaseJavaModule {
             sdkRequestHandler.enableDevice(simpleBhapticsDevice.getAddress(), true);
         }
     }
+
+    @ReactMethod
+    public void getMacAddress(String ip, Callback callback) {
+        if (ip == null)
+            System.out.println("No IP given");
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("/proc/net/arp"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] splitted = line.split(" +");
+                if (splitted != null && splitted.length >= 4 && ip.equals(splitted[0])) {
+                    String mac = splitted[3];
+                    if (mac.matches("..:..:..:..:..:..")) {
+                        System.out.println(mac);
+                        callback.invoke(mac);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @ReactMethod
     public void BhapticregisterFile(String key, String content) {

@@ -1,0 +1,48 @@
+{
+    "ip": "",
+    "effects": {
+        "goal": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true
+        },
+        "wall": {
+            "intensity": 5.0,
+            "duration": 1.0,
+            "enable": true
+        },
+        "grab": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true
+        },
+        "shield": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true
+        },
+        "stun": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true,
+            "lock": false
+        },
+        "heart": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true
+        },
+        "boost": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true,
+            "lock": false
+        },
+        "stunned": {
+            "intensity": 1.0,
+            "duration": 1.0,
+            "enable": true,
+            "lock": false
+        }
+    }
+}

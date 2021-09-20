@@ -35,7 +35,6 @@ public class MainActivity extends ReactActivity {
     checkPermission(Manifest.permission.BLUETOOTH_ADMIN, 52);
     checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, 150);
     checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, 99);
-
   }
 
   public static Activity getActivity(){

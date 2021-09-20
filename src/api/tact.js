@@ -1,21 +1,31 @@
-
-import { DeviceEventEmitter } from 'react-native';
 import {NativeModules, } from 'react-native';
 const { BhapticModuleJava } = NativeModules;
+import { DeviceEventEmitter } from 'react-native';
 const bridgeFunction = require('../api/tact-js/bridgeFunction')
-
-class Tact {
+import { TactFiles } from '../styles/index';
+class BHapticsTactJsAdapter {
     constructor() {
         this.connected = false
         this.handleFileLoaded = () => {}
+        this.handleConnecting = () => {}
         this.handleConnected = () => {}
         this.handleDisconnected = () => {}
         this.handleUpdateDevices = () => {}
         this.initialize()
      }
-     
+
     onFileLoaded(callback) {
         this.handleFileLoaded = callback
+        return this
+    }
+
+    onUpdateDevices(callback) {
+        this.handleUpdateDevices = callback
+        return this
+    }
+
+    onConnecting(callback) {
+        this.handleConnecting = callback
         return this
     }
 
@@ -29,11 +39,6 @@ class Tact {
         return this
     }
 
-    onUpdateDevices(callback) {
-        this.handleUpdateDevices = callback
-        return this
-    }
-
     connect() {
         BhapticModuleJava.connectBhapticsDevice()
     }
@@ -41,6 +46,7 @@ class Tact {
     initialize() {
         DeviceEventEmitter.addListener('onUpdateDevices',((message) => {
             this.handleUpdateDevices(message)
+            console.log('update')
             this.connect()
         }))
         DeviceEventEmitter.addListener('onDisconnect',((message) => {
@@ -50,20 +56,21 @@ class Tact {
         DeviceEventEmitter.addListener('onConnect',((message) => {
             this.connected = true
             this.handleConnected()
-            // this.loadTactFiles()
+            this.loadTactFiles()
         }))
     }
 
+    playEffect(name, options) {
+        console.log('play ', name)
+        BhapticModuleJava.BhapticSubmit(name,options.intensity,options.duration)
+    }
+
     loadTactFiles() {
-        fs.readdir(__dirname + '/../../assets', {}, (err, files) => {
-            files.filter((file) => {
-                return file.match(/([A-z]+).tact$/g) !== null
-            }).forEach((value) => {
-                bridgeFunction.registerFile(value.split('.')[0],fs.readFileSync((__dirname + `/../../assets/${value}`), 'utf8'))
-                this.handleFileLoaded(value)
-            })
-        })
+        for(let key in TactFiles){
+            bridgeFunction.registerFile(key,JSON.stringify(TactFiles[key]))
+            this.handleFileLoaded(key)
+        }
     }
 }
 
-module.exports = new Tact()
+module.exports = BHapticsTactJsAdapter
