@@ -132,7 +132,7 @@ public class BhapticModuleJava extends ReactContextBaseJavaModule {
             try {
                 br.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
         }
     }
@@ -147,8 +147,6 @@ public class BhapticModuleJava extends ReactContextBaseJavaModule {
     public void BhapticSubmit(String key, float intensity, float duration) {
         sdkRequestHandler.submitRegistered(key, key, intensity, duration, 0, 0);
     }
-
-
 
     @ReactMethod
     public void getHapticList() {

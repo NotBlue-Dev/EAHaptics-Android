@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableHighlight, StyleSheet, Image } from 'react-native';
-import {Colors, Images, Typo} from '../../styles/index'
+import { View, Text, TouchableHighlight, StyleSheet, Image, Animated } from 'react-native';
+import {Images, Typo} from '../../styles/index'
 import { EventRegister } from 'react-native-event-listeners'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
       width: 350,
       height:350,
       padding:50,
+      marginTop:75,
       margin:25
     },
     blue: {
@@ -31,27 +32,65 @@ const styles = StyleSheet.create({
 });
 
 export default function HeadsetScreen() {
+    const AnimatedIcon = Animated.createAnimatedComponent(Ionicons)
+    let loading = false
+    let spinValue = new Animated.Value(0);
+
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
+
+    const animatedTransition = Animated.loop(
+        Animated.timing(
+            spinValue, {
+                toValue: 1,
+                duration: 3000,
+                useNativeDriver: true
+            }
+        )
+    )
+
     const [myText, setMyText] = useState("");
+
+    let _buttonOnClick = () => {
+        if(!loading) {
+            EventRegister.emit('find-ip')
+            animatedTransition.start()
+            loading = true
+        }
+
+    }
+
+    let _stopAnim = () => {
+        animatedTransition.stop()
+        spinValue.setValue(0)
+        loading = false
+    }
 
     EventRegister.addEventListener('game-ip-defined', (args) => {
         console.log('Game ip defined', args)
         EventRegister.emit('save-config')
         EventRegister.emit('startRequest')
         setMyText(`ÌP Found ! ${args}`)
+        _stopAnim()
     })
-    
+
     EventRegister.addEventListener('game-ip-bad-defined', (args) => {
         console.log('Bad ip defined', args)
+        _stopAnim()
     })
     
     EventRegister.addEventListener('find-ip-failed', (args) => {
         console.log('find-ip-failed', args)
         setMyText(`Find IP Failed, manual input in settings`)
+        _stopAnim()
     })
     
     EventRegister.addEventListener('find-ip-timeout', (args) => {
         console.log('find-ip-timeout', args)
         setMyText(`Find IP Timed out, manual input in settings`)
+        _stopAnim()
     })
 
     return (
@@ -63,8 +102,8 @@ export default function HeadsetScreen() {
               }}
             >
         </Image>
-        <TouchableHighlight activeOpacity={1} underlayColor={Colors.WARNING} style={{position:'absolute'}} onPress={() => EventRegister.emit('find-ip')}>
-            <Ionicons name='refresh' size={55} color='white' style={{paddingBottom:50}}/>
+        <TouchableHighlight activeOpacity={1} underlayColor='none' style={{position:'absolute'}} onPress={() => _buttonOnClick()}>
+            <AnimatedIcon name='refresh' size={55} color='white' style={{transform: [{rotate: spin}] }}/>
         </TouchableHighlight>
         <Text style={styles.text}>Click on the logo to scan <Text style={styles.blue}>Quest IP</Text></Text>
         <Text style={styles.text}>{myText}</Text>

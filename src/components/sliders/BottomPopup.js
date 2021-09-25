@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Modal, Dimensions, TouchableWithoutFeedback, FlatList } from 'react-native';
-import { Colors, Mixins, Typo } from '../../styles/index';
+import { Colors,Typo } from '../../styles/index';
 
 const deviceHeight = Dimensions.get('window').height
 

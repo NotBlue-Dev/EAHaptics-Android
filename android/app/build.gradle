@@ -142,10 +142,10 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file('echovrmod.keystore')
+            storePassword 'ERG0dtc8bqg-yau-abu'
+            keyAlias 'echoMod'
+            keyPassword 'ERG0dtc8bqg-yau-abu'
         }
     }
     buildTypes {

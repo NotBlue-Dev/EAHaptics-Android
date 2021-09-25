@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, TouchableHighlight, Text } from 'react-native';
+import { View, TouchableHighlight} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -123,9 +123,7 @@ export default function NavigBottom(){
     )
 }
 
-
 const opt = {
-
     headerTintColor: Colors.WHITE,
     headerTitleAlign:'center',
     headerStyle: {

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Text, View, Container, NativeModules } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import NavigBottom from './src/components/navigation/NavigBottom';
